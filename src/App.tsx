@@ -4,19 +4,28 @@ import './App.css';
 import { ColorModeContext, useMode } from './theme';
 import{CssBaseline, ThemeProvider} from "@mui/material";
 import Topbar from "./Topbar";
-function App() {
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './Home'; // Adjust the path as necessary
+import OtherPage from './OtherPage'; // Other routes
+import Cookies from 'js-cookie';
+
+const App: React.FC = () => {
   const [theme, colorMode] = useMode();
-  return(
+  return (
     <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline/>
-        <Topbar/> {/* just for testing so far.*/}
-        <div className="app">
-          <main className="content"></main>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Topbar />
+        <Routes>
+          <Route path="/" element={(Cookies.get('sessionToken') ? <OtherPage /> : <HomePage/>)} />
+          <Route path="/otherpage" element={<OtherPage />} />
+          {/* Add other routes here */}
+        </Routes>
+      </Router>
+    </ThemeProvider>
+  </ColorModeContext.Provider>
   );
-}
+};
 
 export default App;

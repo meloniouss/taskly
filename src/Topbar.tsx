@@ -20,6 +20,14 @@ import ArchiveIcon from '@mui/icons-material/Archive';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { Navigate, redirect, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
+
+
+
+
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -67,7 +75,7 @@ export default function Topbar() {
   const [anchorElProduct, setAnchorElProduct] = useState<null | HTMLElement>(null);
   const [anchorElTeams, setAnchorElTeams] = useState<null | HTMLElement>(null);
   const [anchorElIndividuals, setAnchorElIndividuals] = useState<null | HTMLElement>(null);
-  
+  const [isLoggedIn, setLogInStatus] = useState(false);
   const [isHoveredProduct, setIsHoveredProduct] = useState(false);
   const [isHoveredTeams, setIsHoveredTeams] = useState(false);
   const [isHoveredIndividuals, setIsHoveredIndividuals] = useState(false);
@@ -101,6 +109,14 @@ export default function Topbar() {
     setAnchorElIndividuals(null);
     setIsHoveredIndividuals(false);
   };
+
+  const handleOAuthLogIn = async () => {
+    try {
+      window.location.href = 'http://localhost:9000/auth/oauth';
+    } catch (error) {
+        console.error('ERROR INITIATING LOG-IN', error);
+    }
+};
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -200,7 +216,9 @@ export default function Topbar() {
         </div>
 
         <Box sx={{ flexGrow: 1 }} />
-        <Button color="inherit" size='large' sx={{ textTransform: 'none' }}>Log in</Button>
+        <Button color="inherit" size='large' onClick={handleOAuthLogIn} sx={{ textTransform: 'none' }}>
+          Log in
+        </Button>
         <Typography variant='h4' sx={{ flexGrow: 0.005 }}>|</Typography>
         <Button
           color='primary'
