@@ -25,7 +25,27 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 
+const LoginButton = ({ onLogin, onLogout}: {onLogin: () => void; onLogout: () => void;}) => {
+  const [isLogged, setIsLogged] = useState(false);
 
+  return (
+    <div>
+      {Cookies.get('sessionToken') ? (
+        <Button color="inherit" size="large" onClick={onLogout} sx={{ textTransform: 'none' }}>
+          Log out
+        </Button>
+      ) : (
+        <Button color="inherit" size="large" onClick={onLogin} sx={{ textTransform: 'none' }}>
+          Log in
+        </Button>
+      )}
+    </div>
+  );
+};
+const handleLogout = () => {
+  Cookies.remove('sessionToken');
+  window.location.reload(); 
+}
 
 
 
@@ -216,9 +236,10 @@ export default function Topbar() {
         </div>
 
         <Box sx={{ flexGrow: 1 }} />
-        <Button color="inherit" size='large' onClick={handleOAuthLogIn} sx={{ textTransform: 'none' }}>
-          Log in
-        </Button>
+        <LoginButton 
+          onLogin={() => handleOAuthLogIn()}
+          onLogout={() => handleLogout()}
+        />
         <Typography variant='h4' sx={{ flexGrow: 0.005 }}>|</Typography>
         <Button
           color='primary'
@@ -235,4 +256,5 @@ export default function Topbar() {
     </AppBar>
   </Box>
 );
+
 }
