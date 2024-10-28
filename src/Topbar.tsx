@@ -42,10 +42,22 @@ const LoginButton = ({ onLogin, onLogout}: {onLogin: () => void; onLogout: () =>
     </div>
   );
 };
-const handleLogout = () => {
-  Cookies.remove('sessionToken');
-  window.location.reload(); 
-}
+
+const handleLogout = async () => {
+  try {
+    await fetch('http://localhost:9000/logout', {
+      method: 'POST', 
+      credentials: 'include', 
+      redirect: 'manual' // DO NOT REMOVE THIS REDIRECT, IT WILL NOT WORK WITHOUT THE REDIRECT
+    });
+
+    Cookies.remove('sessionToken');
+    window.location.reload(); 
+
+  } catch (error) {
+    console.error('ERROR INITIATING LOGOUT', error);
+  }
+};
 
 
 
