@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './Home'; // Adjust the path as necessary
 import OtherPage from './OtherPage'; // Other routes
 import Cookies from 'js-cookie';
+import Sidebar from './Sidebar';
 
 const App: React.FC = () => {
   const [theme, colorMode] = useMode();
@@ -16,7 +17,8 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <Topbar />
+        <Sidebar/>
+        {/* add top bar back here */}
         <Routes>
           <Route path="/" element={(Cookies.get('sessionToken') ? <OtherPage /> : <HomePage/>)} />
           <Route path="/otherpage" element={<OtherPage />} />

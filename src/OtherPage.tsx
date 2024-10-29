@@ -2,6 +2,17 @@
 import React from 'react';
 import Topbar from './Topbar'; // Adjust the path as necessary
 import Cookies from 'js-cookie';
+import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Sidebar from './Sidebar';
 
 // After login
 const sessionToken = Cookies.get('sessionToken');
@@ -9,10 +20,9 @@ console.log('Session Token:', sessionToken);
 
 
 const HomePage: React.FC = () => {
-  console.log('Session Token:', Cookies.get('sessionToken'));
   return (
     <div>
-      <h1>YOU ARE CURRENTLY LOGGED IN</h1>
+      <Sidebar/>
       {/* Other content for your home page */}
     </div>
   );
