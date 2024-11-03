@@ -17,8 +17,6 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <Sidebar/>
-        {/* add top bar back here */}
         <Routes>
           <Route path="/" element={(Cookies.get('sessionToken') ? <OtherPage /> : <HomePage/>)} />
           <Route path="/otherpage" element={<OtherPage />} />
