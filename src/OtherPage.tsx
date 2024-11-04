@@ -1,5 +1,5 @@
 // HomePage.tsx
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Topbar from './Topbar'; // Adjust the path as necessary
 import Cookies from 'js-cookie';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,23 +12,51 @@ import { AppBar, Box, Button, Divider, Drawer, IconButton, List, ListItem, ListI
 import { ColorModeContext, tokens } from './theme';
 
 
-// After login
 const sessionToken = Cookies.get('sessionToken');
-console.log('Session Token:', sessionToken);
-
+const userId = Cookies.get('userId');
 const CoursePopup = () => {
+  const [courseName, setCourseName] = useState('');
   const colorMode = useContext(ColorModeContext);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    // fetch API stuff
+
+    try {
+      console.log(userId);
+      console.log(JSON.stringify({ courseName, userId }));
+      const dataSent = await fetch('http://localhost:9000/courses', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          courseName: courseName,
+          user: { id: userId } 
+      }),
+      });
+
+      if (!dataSent.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const responseData = await dataSent.json();
+      console.log(responseData); // Handle the response as needed
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  };
+  const handleChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    setCourseName(event.target.value); // Update state as user types
   };
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px', backgroundColor: theme.palette.secondary.main, alignItems: 'center' }}>
       <Typography variant="h6">Add a New Course</Typography>
       <TextField 
         label="Course Name" 
+        value={courseName}
+        onChange={handleChange} 
         variant="outlined" 
         fullWidth 
         required 
