@@ -14,14 +14,18 @@ import { ColorModeContext, tokens } from './theme';
 
 const sessionToken = Cookies.get('sessionToken');
 const userId = Cookies.get('userId');
-const CoursePopup = () => {
+
+interface CoursePopupProps {
+  onAddCourse: () => void; // Define the type for the prop
+}
+
+const CoursePopup: React.FC<CoursePopupProps> = ({ onAddCourse }) => {
   const [courseName, setCourseName] = useState('');
   const colorMode = useContext(ColorModeContext);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
     try {
       console.log(userId);
       console.log(JSON.stringify({ courseName, userId }));
@@ -43,6 +47,8 @@ const CoursePopup = () => {
 
       const responseData = await dataSent.json();
       console.log(responseData); // Handle the response as needed
+      onAddCourse();
+
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
     }
@@ -72,14 +78,36 @@ const CoursePopup = () => {
   );
 };
 
-const HomePage: React.FC = () => {
-  const courses = [
-    { title: 'COMP-352', description: 'Learn the basics of Course 1.' },
-    { title: 'MATH-208', description: 'Deep dive into Course 2.' },
-    { title: 'Cal2', description: 'Advanced concepts in Course 3.' },
-    { title: 'ENGR-233', description: 'Advanced concepts in Course 3.' },
+interface Course {
+  courseName: string;
+  id: number;
+}
 
-  ];
+const HomePage: React.FC = () => {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const fetchCourses = async () => {
+    try {
+      const response = await fetch('http://localhost:9000/courses', {
+        method: 'GET',
+        credentials: 'include'
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      console.log('fetching courses')
+      const fetchedCourses: Course[] = await response.json();
+      setCourses(fetchedCourses); // Update state with fetched courses
+      console.log('Fetched courses:', fetchedCourses);
+      fetchedCourses.forEach(course => {
+        console.log(`Course ID: ${course.id}, Name: ${course.courseName}`);
+      });
+    } catch (err) {
+      console.error('Error fetching courses:', err);
+    }
+  };
+  useEffect(() => {
+      fetchCourses();
+  },[]);
   const colorMode = useContext(ColorModeContext);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -122,7 +150,7 @@ const HomePage: React.FC = () => {
             justifyContent: 'center', // Center horizontally
             alignItems: 'center', // Center vertically
             zIndex: 1000}}>
-            <CoursePopup/>
+            <CoursePopup onAddCourse={fetchCourses}/>
         </Popup>
         <Box
         sx={{
@@ -135,10 +163,10 @@ const HomePage: React.FC = () => {
           maxWidth: 1000, // Optional: Max width for the course grid
         }}
       >
-        {courses.map((course, index) => (
+      {courses.map((course, index) => (
            <Card key={index} sx={{ borderRadius: 2, boxShadow: 3, width: 300, height: 200 }}>
             <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignContent: 'center', height: '100%' }}>
-              <Typography variant="h1">{course.title}</Typography>
+              <Typography variant="h1">{course.courseName}</Typography>
             </CardContent>
           </Card>
         ))}

@@ -9,6 +9,7 @@ import HomePage from './Home'; // Adjust the path as necessary
 import OtherPage from './OtherPage'; // Other routes
 import Cookies from 'js-cookie';
 import Sidebar from './Sidebar';
+import { useEffect } from 'react';
 
 const App: React.FC = () => {
   const [theme, colorMode] = useMode();
