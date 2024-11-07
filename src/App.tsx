@@ -10,6 +10,7 @@ import OtherPage from './OtherPage'; // Other routes
 import Cookies from 'js-cookie';
 import Sidebar from './Sidebar';
 import { useEffect } from 'react';
+import CourseTaskTable from './CourseTasks';
 
 const App: React.FC = () => {
   const [theme, colorMode] = useMode();
@@ -21,6 +22,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={(Cookies.get('sessionToken') ? <OtherPage /> : <HomePage/>)} />
           <Route path="/otherpage" element={<OtherPage />} />
+          <Route path="/Coursetasks" element={<CourseTaskTable/>}/>
           {/* Add other routes here */}
         </Routes>
       </Router>
