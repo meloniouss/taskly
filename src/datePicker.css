@@ -1,0 +1,33 @@
+
+/* Custom styling for the input field */
+.react-datepicker__input-container input {
+    padding: 9px 0 9px 0; /* Vertical padding: 6px, Horizontal padding: 12px */
+
+    border: 1px solid #ccc;
+    font-size: 15.6px;
+    font-family: "Source Sans Pro", sans-serif;
+    border-radius: 4px;
+    background-color: #323232;
+    color: white;
+    text-align: center;
+
+  }
+  
+  /* Focus state styling */
+  .react-datepicker__input-container input:focus {
+    border-color: #007bff;
+    background-color: #323232;
+    outline: none;
+  }
+  
+  /* Placeholder text styling */
+  .react-datepicker__input-container input::placeholder {
+    color: #888;
+    font-style: italic;
+  }
+  .resizable-text-field {
+    resize: both;
+    overflow: auto;
+    width: 200px;
+    height: 40px; /* or auto based on your preference */
+  }
