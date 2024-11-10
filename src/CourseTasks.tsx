@@ -1,11 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Box, Card, CardContent, TextField, Grid, Typography, useTheme, debounce, Button } from '@mui/material';
 import { ColorModeContext, tokens } from './theme';
 import {useDebounce} from './debounce';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./datePicker.css";
-
+import Cookies from 'js-cookie';
+import { useParams } from 'react-router-dom';
 
 
 
@@ -19,17 +20,67 @@ type CourseTable = {
 
 
 const CourseTaskTable = () => {
-
-  const handleAddRow = () => {
-    const newRow = { taskName: "", isDone : false, dueDate: "", taskDescription: "" };
+  const { courseId } = useParams();
+  const testRow = {
+    taskName: "Test Task",
+    isDone: false,
+    dueDate: "2024-12-31",
+    taskDescription: "This is a test task"
+};
+  const handleAddRow = async () => {
+    const newRow = { taskName: "New task", isDone : false, dueDate: "2024-12-31", taskDescription: "" };
     setCourseData([...courseData, newRow]);
-  };
+    console.log("Saving data:", newRow);
+    try {
+        console.log(`${courseId}`) //hardcoded for now
+        const response = await fetch(`http://localhost:9000/courses/22/tasks`, {
+            method: "POST",
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${Cookies.get('sessionToken')}` 
 
+            },
+            body: JSON.stringify(testRow), 
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        console.log("Data saved successfully:", result);
+        return result;
+    } catch (error) {
+        console.error("Error saving data:", error);
+    }
+  };
 
   //text editing functions
-  const saveData = (data: any) => { // gonna add fetch request here
+  const saveData = async (data: any) => {
     console.log("Saving data:", data);
-  };
+    try {
+        const response = await fetch("http://localhost:9000/courses/{courseId}/tasks", {
+            method: "PUT",
+            credentials: 'include',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data), 
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        console.log("Data saved successfully:", result);
+        return result;
+    } catch (error) {
+        console.error("Error saving data:", error);
+    }
+};
+
   const debouncedSaveData = useDebounce(saveData, 500);
   const [inputValue, setInputValue] = useState<string | Date>(''); 
   const handleChange = (
@@ -69,32 +120,30 @@ const CourseTaskTable = () => {
 // ALSO TODO, add a + sign (used to add rows) and a title '{course_name} Tasks'
 
 
-  const [courseData, setCourseData] = useState<CourseTable[]>([ //hardcoded test data
-     {
-        taskName: 'Complete React Project',
-        isDone: false,
-        dueDate: '2024-11-15',
-        taskDescription: 'Build a simple task manager with React and Material UI.',
-      },
-      {
-        taskName: 'Write Research Paper',
-        isDone: true,
-        dueDate: '2024-11-10',
-        taskDescription: 'Write a 10-page research paper on Machine Learning.',
-      },
-      {
-        taskName: 'Study for Final Exam',
-        isDone: false,
-        dueDate: '2024-12-01',
-        taskDescription: 'Review all course material for the final exam.',
-      },
-      {
-        taskName: 'Update Portfolio',
-        isDone: false,
-        dueDate: '2024-11-20',
-        taskDescription: 'Update personal website with recent projects.',
-      },
-  ]);
+  const [courseData, setCourseData] = useState<CourseTable[]>([]); //hardcoded test data
+  useEffect(() => {
+    const fetchCourseTasks = async () => {
+      try {
+        const response = await fetch(`http://localhost:9000/courses/${courseId}/tasks`, {
+          method: 'GET',
+          credentials: 'include', 
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch tasks');
+        }
+
+        const data: CourseTable[] = await response.json();
+        setCourseData(data); // Update state with fetched tasks
+        console.log('successfully fetched tasks');
+      } catch (error) {
+        console.error('Error fetching tasks:', error);
+      }
+    };
+
+    // Fetch tasks for the current course
+    fetchCourseTasks();
+  }, [courseId]); // Only fetch when courseId changes
 
   return (
     <Box 

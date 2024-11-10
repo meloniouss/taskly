@@ -10,6 +10,8 @@ import './index.css'
 import { Card, CardContent, TextField, Typography, CardActions } from '@mui/material';
 import { AppBar, Box, Button, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from './theme';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const sessionToken = Cookies.get('sessionToken');
@@ -99,6 +101,7 @@ interface Course {
 }
 
 const HomePage: React.FC = () => {
+  const navigate = useNavigate();
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
   const [courses, setCourses] = useState<Course[]>([]);
   const handleEditClick = (course: Course) => {
@@ -111,9 +114,13 @@ const HomePage: React.FC = () => {
   };
   const fetchCourses = async () => {
     try {
+      console.log(Cookies.get('sessionToken'))
       const response = await fetch('http://localhost:9000/courses', {
         method: 'GET',
-        credentials: 'include'
+        credentials: 'include',
+        headers: {
+          'Authorization': `Bearer ${Cookies.get('sessionToken')}`,
+        },
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -190,9 +197,8 @@ const HomePage: React.FC = () => {
       {courses.slice().reverse().map((course, index) => (
            <Card key={index} sx={{ borderRadius: 2, boxShadow: 3, width: 300, height: 200 }}>
     <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', justifyContent: 'center' }}>
-              <Typography variant="h1">{course.courseName}</Typography>
+              <Button onClick={() => navigate(`/courses/${course.id}`)}><Typography variant="h1">{course.courseName}</Typography></Button>
               <Button 
-                  
                   size="small" 
                   color="secondary" 
                   onClick={() => handleEditClick(course)}
