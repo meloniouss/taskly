@@ -51,8 +51,8 @@ const handleLogout = async () => {
       redirect: 'manual' // DO NOT REMOVE THIS REDIRECT, IT WILL NOT WORK WITHOUT THE REDIRECT
     });
 
-    Cookies.remove('sessionToken');
-    window.location.reload(); 
+    //Cookies.remove('sessionToken');
+    //window.location.reload(); 
 
   } catch (error) {
     console.error('ERROR INITIATING LOGOUT', error);

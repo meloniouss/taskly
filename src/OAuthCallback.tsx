@@ -3,14 +3,12 @@ import { useEffect } from 'react';
 const OAuthCallback = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token'); // Retrieve token from URL
+    const token = urlParams.get('token');
 
     if (token) {
-      // Store the token in localStorage
-      localStorage.setItem('sessionToken', token);
+      localStorage.setItem('sessionToken', token); //unnecessary
         
-      // Redirect to the dashboard or home page
-      window.location.href = '/homepage'; // Or whatever page you want to go to
+      window.location.href = '/homepage'; 
     } else {
       console.error('No token found in URL');
     }

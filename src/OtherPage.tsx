@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const sessionToken = Cookies.get('sessionToken');
-const userId = Cookies.get('userId');
+//const userId = Cookies.get('userId');
 
 interface CoursePopupProps {
   onAddCourse: () => void;
@@ -39,7 +39,7 @@ const CoursePopup: React.FC<CoursePopupProps> = ({ onAddCourse, onUpdateCourse, 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const url = editingCourse
+      const url = editingCourse // endpoint used depends on whether we are creating a course or modifying one (post vs put)
         ? `http://localhost:9000/courses/${editingCourse.id}`
         : 'http://localhost:9000/courses';
       const method = editingCourse ? 'PUT' : 'POST';
@@ -52,7 +52,6 @@ const CoursePopup: React.FC<CoursePopupProps> = ({ onAddCourse, onUpdateCourse, 
         },
         body: JSON.stringify({
           courseName,
-          user: { id: userId }
         }),
       });
 
@@ -77,7 +76,7 @@ const CoursePopup: React.FC<CoursePopupProps> = ({ onAddCourse, onUpdateCourse, 
     setCourseName(event.target.value);
   };
 
-  return (
+  return ( //form submission / editing function
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px', backgroundColor: theme.palette.secondary.main, alignItems: 'center' }}>
       <Typography variant="h6">{editingCourse ? 'Edit Course' : 'Add a New Course'}</Typography>
       <TextField 
@@ -112,7 +111,7 @@ const HomePage: React.FC = () => {
   const handleClosePopup = () => {
     setEditingCourse(null); 
   };
-  const fetchCourses = async () => {
+  const fetchCourses = async () => { //course fetcher whenever we load the page or add a new course
     try {
       console.log(Cookies.get('sessionToken'))
       const response = await fetch('http://localhost:9000/courses', {
@@ -133,6 +132,8 @@ const HomePage: React.FC = () => {
         console.log(`Course ID: ${course.id}, Name: ${course.courseName}`);
       });
     } catch (err) {
+      Cookies.remove('sessionToken');
+      window.location.href = '/invalidSession'
       console.error('Error fetching courses:', err);
     }
   };
@@ -164,10 +165,10 @@ const HomePage: React.FC = () => {
           position="bottom right"
           contentStyle={{
             backgroundColor: theme.palette.secondary.main,
-            display: 'flex', // Use flexbox for centering
-            justifyContent: 'center', // Center horizontally
-            alignItems: 'center', // Center vertically
-            borderRadius: '8px', // Rounded corners
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center',
+            borderRadius: '8px', 
           }} // Needs to be a string
           lockScroll
           overlayStyle={{
@@ -178,8 +179,8 @@ const HomePage: React.FC = () => {
             right: 0,
             bottom: 0,
             display: 'flex',
-            justifyContent: 'center', // Center horizontally
-            alignItems: 'center', // Center vertically
+            justifyContent: 'center', 
+            alignItems: 'center', 
             zIndex: 1000}}>
             <CoursePopup onAddCourse={fetchCourses}/>
         </Popup>
@@ -187,17 +188,17 @@ const HomePage: React.FC = () => {
         sx={{
           paddingTop: '50px',
           display: 'grid',
-          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, // Responsive grid
+          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, 
           rowGap: 1,
           columnGap: 1,
           width: '100%',
-          maxWidth: 1000, // Optional: Max width for the course grid
+          maxWidth: 1000,
         }}
       >
       {courses.slice().reverse().map((course, index) => (
            <Card key={index} sx={{ borderRadius: 2, boxShadow: 3, width: 300, height: 200 }}>
     <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', justifyContent: 'center' }}>
-              <Button onClick={() => navigate(`/courses/${course.id}`)}><Typography variant="h1">{course.courseName}</Typography></Button>
+              <Button style={{ color: theme.palette.primary.contrastText }} onClick={() => navigate(`/courses/${course.id}`)}><Typography variant="h1">{course.courseName}</Typography></Button>
               <Button 
                   size="small" 
                   color="secondary" 

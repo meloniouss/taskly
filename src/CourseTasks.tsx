@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Card, CardContent, TextField, Grid, Typography, useTheme, debounce, Button } from '@mui/material';
+import { Box, Card, CardContent, TextField, Grid, Typography, useTheme, debounce, Button, Checkbox } from '@mui/material';
 import { ColorModeContext, tokens } from './theme';
 import {useDebounce} from './debounce';
 import DatePicker from "react-datepicker";
@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./datePicker.css";
 import Cookies from 'js-cookie';
 import { useParams } from 'react-router-dom';
+import UnauthorizedError from './unauthorizedWarning';
 
 
 
@@ -28,20 +29,18 @@ const CourseTaskTable = () => {
     taskDescription: "This is a test task"
 };
   const handleAddRow = async () => {
-    const newRow = { taskName: "New task", isDone : false, dueDate: "2024-12-31", taskDescription: "" };
+    const newRow = { taskName: "New task", isDone : false, dueDate: "2024-12-31", taskDescription: "Task description" };
     setCourseData([...courseData, newRow]);
-    console.log("Saving data:", newRow);
+    console.log("Saving data (new row):", newRow);
     try {
-        console.log(`${courseId}`) //hardcoded for now
-        const response = await fetch(`http://localhost:9000/courses/22/tasks`, {
+        console.log(`${courseId}`) 
+        const response = await fetch(`http://localhost:9000/courses/${courseId}/tasks`, {
             method: "POST",
             credentials: 'include',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${Cookies.get('sessionToken')}` 
-
             },
-            body: JSON.stringify(testRow), 
+            body: JSON.stringify(newRow),  //dont make the mistake of changing this to courseData again, the api endpoint expects 1 task not a whole list of tasks
         });
 
         if (!response.ok) {
@@ -60,7 +59,7 @@ const CourseTaskTable = () => {
   const saveData = async (data: any) => {
     console.log("Saving data:", data);
     try {
-        const response = await fetch("http://localhost:9000/courses/{courseId}/tasks", {
+        const response = await fetch(`http://localhost:9000/courses/${courseId}/tasks`, {
             method: "PUT",
             credentials: 'include',
             headers: {
@@ -74,14 +73,15 @@ const CourseTaskTable = () => {
         }
 
         const result = await response.json();
-        console.log("Data saved successfully:", result);
+        console.log("Raw Response:", result);
         return result;
     } catch (error) {
         console.error("Error saving data:", error);
     }
 };
 
-  const debouncedSaveData = useDebounce(saveData, 500);
+  const debouncedSaveData = useDebounce(saveData, 100);
+
   const [inputValue, setInputValue] = useState<string | Date>(''); 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -89,12 +89,12 @@ const CourseTaskTable = () => {
     columnId: keyof typeof courseData[0]
   ) => {
     let newValue: any; // Type for the new value
-  
-    if (columnId === "dueDate") {
-      // Handle the date field
+    if (columnId === "isDone" && e.target instanceof HTMLInputElement) {
+      newValue = e.target.checked;
+    }
+    else if (columnId === "dueDate") {
       newValue = e.target.value ? new Date(e.target.value) : null; // Convert string to Date or null
     } else {
-      // Handle other text fields
       newValue = e.target.value;
     }
   
@@ -104,7 +104,7 @@ const CourseTaskTable = () => {
       [columnId]: newValue 
     };
     setCourseData(updatedData);
-  
+    console.log(updatedData);
     debouncedSaveData(updatedData);
   };
   
@@ -113,14 +113,10 @@ const CourseTaskTable = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   
- // fetch data on first render
- // to-do: save to db in save function
- // no need to refetch as it's a textfield and remains
-
 // ALSO TODO, add a + sign (used to add rows) and a title '{course_name} Tasks'
 
-
-  const [courseData, setCourseData] = useState<CourseTable[]>([]); //hardcoded test data
+  const [courseData, setCourseData] = useState<CourseTable[]>([]);
+  const [error, setError] = useState<boolean>(false);
   useEffect(() => {
     const fetchCourseTasks = async () => {
       try {
@@ -130,21 +126,21 @@ const CourseTaskTable = () => {
         });
         
         if (!response.ok) {
+          setError(true);
           throw new Error('Failed to fetch tasks');
         }
 
         const data: CourseTable[] = await response.json();
-        setCourseData(data); // Update state with fetched tasks
+        setCourseData(data); // update state with fetched tasks
         console.log('successfully fetched tasks');
       } catch (error) {
+        setError(true);
         console.error('Error fetching tasks:', error);
       }
     };
-
-    // Fetch tasks for the current course
     fetchCourseTasks();
-  }, [courseId]); // Only fetch when courseId changes
-
+  }, [courseId]); // only fetch when courseId changes
+  if(error) return (<UnauthorizedError />)
   return (
     <Box 
     display="flex" 
@@ -160,7 +156,7 @@ const CourseTaskTable = () => {
       direction="column" 
     >
       {/* headers */}
-<Grid container spacing={0} justifyContent="center" style={{ width: '826.01px', height: '76.68px', alignItems: 'center' }  }>
+<Grid container spacing={0} justifyContent="center" style={{ width: '852.13px', height: '79.79px', alignItems: 'center' }  }>
         <Card style={{ paddingTop: '15px', width: '100%', height: '100%', alignItems: 'center'}} >
             <CardContent>
             <Grid container xs={12} md={12} lg={12} direction="row" >
@@ -177,14 +173,14 @@ const CourseTaskTable = () => {
                 </Grid>
 
                 <Grid item xs={3}>
-                <Typography variant="h6" align="center">
+                <Typography variant="h6" align="center" paddingLeft={'45px'}>
                     Due Date
                 </Typography>
                 </Grid>
                 
                 {/* Task Description Header */}
                 <Grid item xs={4}>
-                <Typography variant="h6" align='center' paddingLeft={'60px'}>
+                <Typography variant="h6" align='center' paddingLeft={'px'}>
                     Description
                 </Typography>
                 </Grid>
@@ -211,26 +207,25 @@ const CourseTaskTable = () => {
                   </Grid>
                   {/* Completed Checkbox */}
                   <Grid item>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      variant='standard'
-                      type="checkbox"
-                    />
+                  <Checkbox
+                  checked={row.isDone}  
+                  onChange={(e) => handleChange(e, rowIndex,'isDone')}
+                  color="secondary" 
+                  />
                   </Grid>
                   {/* Due Date */}
                   <Grid item>
                   <DatePicker 
                            onChange={(date) => {
                             const updatedData = [...courseData];
+                            console.log('date changed');
                             updatedData[rowIndex] = {
                               ...updatedData[rowIndex],
                               dueDate: date ? date.toISOString().split('T')[0] : "", // Format to 'YYYY-MM-DD' or empty string if null
                             };
-                            setCourseData(updatedData); // Update state directly here
-                            debouncedSaveData(updatedData); // Call debounced save function
+                            setCourseData(updatedData);
+                            debouncedSaveData(updatedData);
                           }}
-                          
                           dateFormat="yyyy-MM-dd"
                           placeholderText="Select a date"
                           value={courseData[rowIndex].dueDate}
