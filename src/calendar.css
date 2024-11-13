@@ -1,0 +1,77 @@
+.calendar {
+    margin-left: 230px;
+    height: 100%;
+    width: 100%;
+  }
+.rbc-date-cell {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    padding-right: 5px !important;
+    text-align: right !important;
+  
+    &.rbc-now {
+      font-weight: bold !important;
+      background-color: #4cceac !important;
+      color: black !important;
+      border-radius: 0px !important;
+      padding: 0px !important;
+      width: 100%;
+      margin-top: 1px;
+    }
+  
+    > a {
+      &,
+      &:active,
+      &:visited {
+        color: inherit !important;
+        text-decoration: none !important;
+      }
+    }
+  }
+
+  .rbc-day-bg {
+    flex: 1 0 0% !important;
+    border-left: 1px solid inherit !important;
+    padding: 10px !important;
+    background-color: #141b2d;
+  }
+  .rbc-btn-group button:first-child {
+    background-color: #4cceac !important;
+    color: white !important;
+    border-radius: 5px;
+  }
+  .rbc-btn-group button:nth-child(2){
+    background-color: #4cceac !important;
+    color: white !important;
+    border-radius: 5px;
+  }
+  
+
+  .rbc-btn-group button:last-child {
+    background-color: #4cceac !important;
+    color: white !important;
+    border-radius: 5px;
+  }
+  .rbc-btn-group button:nth-child(1):hover {
+    background-color: #2e7c67 !important;
+  }
+  .rbc-btn-group button:nth-child(2):hover {
+    background-color: #2e7c67 !important;
+  }
+  .rbc-btn-group button:nth-child(3):hover {
+    background-color: #2e7c67 !important;
+  }
+
+.rbc-toolbar {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+  }
+
+  .rbc-btn-group {
+    display: flex;
+    justify-content: flex-start; 
+    width: auto; 
+    flex: 1; 
+  }
+  

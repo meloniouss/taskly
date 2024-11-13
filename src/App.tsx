@@ -12,6 +12,7 @@ import Sidebar from './Sidebar';
 import { useEffect } from 'react';
 import CourseTaskTable from './CourseTasks';
 import InvalidSession  from './invalidSession';
+import MyCalendar from './calendar';
 
 const PrivateRoute = ({ element }: { element: JSX.Element }) => {
   const token = Cookies.get('sessionToken');
@@ -30,6 +31,7 @@ const App: React.FC = () => {
       <CssBaseline />
       <Router>
         <Routes>
+        <Route path="/calendar" element={<MyCalendar />}/>
         <Route path="/" element={(Cookies.get('sessionToken') ? <OtherPage /> : <HomePage />)} />
         <Route path="/courses/:courseId" element={<PrivateRoute element={<CourseTaskTable />} />} />
         <Route path="/invalidSession" element={<InvalidSession />}/>
