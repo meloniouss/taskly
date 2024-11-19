@@ -85,8 +85,8 @@ const locales = {
                         //backgroundColor: 'lightblue',
                         borderRadius: '5px',
                         padding: '10px',
-                        minHeight: '20px',  // Optional: Set a minimum height for the event box
                         flexGrow: 1,  
+                        msOverflowY: 'auto'
                     }}
                   >
                     {event.title}

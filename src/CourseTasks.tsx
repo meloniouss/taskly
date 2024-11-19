@@ -80,7 +80,7 @@ const CourseTaskTable = () => {
     }
 };
 
-  const debouncedSaveData = useDebounce(saveData, 100);
+  const debouncedSaveData = useDebounce(saveData, 300);
 
   const [inputValue, setInputValue] = useState<string | Date>(''); 
   const handleChange = (

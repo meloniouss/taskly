@@ -1,14 +1,15 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useCallback } from "react";
 
 type Timer = ReturnType<typeof setTimeout>;
 type SomeFunction = (...args: any[]) => void;
-/**
- *
- * @param func The original, non debounced function (You can pass any number of args to it)
- * @param delay The delay (in ms) for the function to return
- * @returns The debounced function, which will run only if the debounced function has not been called in the last (delay) ms
- */
 
+/**
+ * Custom hook for debouncing a function.
+ *
+ * @param func The function to debounce (can accept any number of arguments)
+ * @param delay Delay (in ms) after which the function will execute if there are no new calls
+ * @returns A debounced version of the function
+ */
 export function useDebounce<Func extends SomeFunction>(
   func: Func,
   delay = 1000
@@ -16,20 +17,27 @@ export function useDebounce<Func extends SomeFunction>(
   const timer = useRef<Timer>();
 
   useEffect(() => {
+    // Cleanup the timer when the component unmounts
     return () => {
-      if (!timer.current) return;
-      clearTimeout(timer.current);
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
     };
   }, []);
 
-  const debouncedFunction = ((...args) => {
-    const newTimer = setTimeout(() => {
-      func(...args);
-    }, delay);
-    clearTimeout(timer.current);
-    timer.current = newTimer;
-  }) as Func;
+  const debouncedFunction = useCallback(
+    ((...args: Parameters<Func>) => {
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      timer.current = setTimeout(() => {
+        func(...args);
+      }, delay);
+    }) as Func,
+    [func, delay]
+  );
 
   return debouncedFunction;
 }
-export{};
+
+export {};
