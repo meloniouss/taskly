@@ -1,6 +1,6 @@
 import { Box, Button, ButtonGroup, useTheme } from '@mui/material'
 import './TextEditor.css'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
 import { TaskList } from '@tiptap/extension-task-list';
@@ -17,22 +17,41 @@ import { ColorModeContext, tokens } from './theme'
 
 
 export default () => {
+  const [content, setContent] = useState<string>('');
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('http://localhost:9000/texteditor', {
+          method: 'GET',
+          credentials: 'include',
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setContent(data.content); 
+        }
+      } catch (error) {
+        console.error('Error fetching content:', error);
+      }
+    };
+    
+    fetchContent();
+  }, []);
+  console.log(content);
   const editor = useEditor({
     extensions: [
       StarterKit,
       TextAlign.configure({
         types: ['heading', 'paragraph'],
       }),
-    ], //todo : add CRUD functionality
-    content: `
-      test
-    `,
+    ], 
+    content: content,
     onUpdate: ({ editor }) => {
        const content = editor.getHTML();
        debouncedSave(content);
       },    
   })
-
+;
   const debouncedSave = useDebounce((content: string) => {
     saveContentToBackend(content);
   }, 300);
@@ -40,7 +59,7 @@ export default () => {
 
   const saveContentToBackend = async (content: string) => {
     try {
-      await fetch('/api/saveContent', {
+      await fetch('http://localhost:9000/texteditor', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -55,7 +74,9 @@ export default () => {
   if (!editor) {
     return null;
   }
- 
+  useEffect(() => {
+    editor.commands.setContent(content)
+}, [content]);
   const colorMode = useContext(ColorModeContext);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
