@@ -261,6 +261,7 @@ export default function Topbar() {
             backgroundColor: (theme) => theme.palette.secondary.main,
             '&:hover': { backgroundColor: '#3da58a' }
           }}
+          href="http://localhost:9000/auth/oauth"
         >
           Sign up for free
         </Button>

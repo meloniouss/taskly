@@ -8,6 +8,7 @@ import "./datePicker.css";
 import Cookies from 'js-cookie';
 import { useParams } from 'react-router-dom';
 import UnauthorizedError from './unauthorizedWarning';
+import Sidebar from './Sidebar';
 
 
 
@@ -31,9 +32,7 @@ const CourseTaskTable = () => {
   const handleAddRow = async () => {
     const newRow = { taskName: "New task", isDone : false, dueDate: "2024-12-31", taskDescription: "Task description" };
     setCourseData([...courseData, newRow]);
-    console.log("Saving data (new row):", newRow);
     try {
-        console.log(`${courseId}`) 
         const response = await fetch(`http://localhost:9000/courses/${courseId}/tasks`, {
             method: "POST",
             credentials: 'include',
@@ -48,7 +47,6 @@ const CourseTaskTable = () => {
         }
 
         const result = await response.json();
-        console.log("Data saved successfully:", result);
         return result;
     } catch (error) {
         console.error("Error saving data:", error);
@@ -57,7 +55,6 @@ const CourseTaskTable = () => {
 
   //text editing functions
   const saveData = async (data: any) => {
-    console.log("Saving data:", data);
     try {
         const response = await fetch(`http://localhost:9000/courses/${courseId}/tasks`, {
             method: "PUT",
@@ -73,7 +70,6 @@ const CourseTaskTable = () => {
         }
 
         const result = await response.json();
-        console.log("Raw Response:", result);
         return result;
     } catch (error) {
         console.error("Error saving data:", error);
@@ -104,7 +100,6 @@ const CourseTaskTable = () => {
       [columnId]: newValue 
     };
     setCourseData(updatedData);
-    console.log(updatedData);
     debouncedSaveData(updatedData);
   };
   
@@ -132,7 +127,6 @@ const CourseTaskTable = () => {
 
         const data: CourseTable[] = await response.json();
         setCourseData(data); // update state with fetched tasks
-        console.log('successfully fetched tasks');
       } catch (error) {
         setError(true);
         console.error('Error fetching tasks:', error);
@@ -142,6 +136,7 @@ const CourseTaskTable = () => {
   }, [courseId]); // only fetch when courseId changes
   if(error) return (<UnauthorizedError />)
   return (
+    <><Sidebar />
     <Box 
     display="flex" 
     justifyContent="center" 
@@ -218,7 +213,6 @@ const CourseTaskTable = () => {
                   <DatePicker 
                            onChange={(date) => {
                             const updatedData = [...courseData];
-                            console.log('date changed');
                             updatedData[rowIndex] = {
                               ...updatedData[rowIndex],
                               dueDate: date ? date.toISOString().split('T')[0] : "", // Format to 'YYYY-MM-DD' or empty string if null
@@ -256,6 +250,7 @@ const CourseTaskTable = () => {
         </Grid>
       </Grid>
     </Box>
+    </>
   );
   
 };

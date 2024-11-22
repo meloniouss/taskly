@@ -60,12 +60,11 @@ const CoursePopup: React.FC<CoursePopupProps> = ({ onAddCourse, onUpdateCourse, 
       }
 
       const responseData = await response.json();
-      console.log(responseData); // Log the response as needed
 
       if (editingCourse && onUpdateCourse) {
-        onUpdateCourse(responseData); // Call onUpdateCourse with updated data
+        onUpdateCourse(responseData); 
       } else {
-        onAddCourse(); // Call onAddCourse if it's a new course
+        onAddCourse(); 
       }
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
@@ -104,7 +103,6 @@ const HomePage: React.FC = () => {
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
   const [courses, setCourses] = useState<Course[]>([]);
   const handleEditClick = (course: Course) => {
-    console.log('editing a course');
     setEditingCourse(course);
   };
 
@@ -113,7 +111,6 @@ const HomePage: React.FC = () => {
   };
   const fetchCourses = async () => { //course fetcher whenever we load the page or add a new course
     try {
-      console.log(Cookies.get('sessionToken'))
       const response = await fetch('http://localhost:9000/courses', {
         method: 'GET',
         credentials: 'include',
@@ -124,13 +121,8 @@ const HomePage: React.FC = () => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      console.log('fetching courses')
       const fetchedCourses: Course[] = await response.json();
-      setCourses(fetchedCourses); // Update state with fetched courses
-      console.log('Fetched courses:', fetchedCourses);
-      fetchedCourses.forEach(course => {
-        console.log(`Course ID: ${course.id}, Name: ${course.courseName}`);
-      });
+      setCourses(fetchedCourses); 
     } catch (err) {
       Cookies.remove('sessionToken');
       window.location.href = '/invalidSession'

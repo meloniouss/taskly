@@ -14,6 +14,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import HomeIcon from '@mui/icons-material/Home';
 import ViewKanbanIcon from '@mui/icons-material/ViewKanban';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
     const colorMode = useContext(ColorModeContext);
@@ -25,19 +27,34 @@ const Sidebar = () => {
     };
     const [hovered, setHovered] = useState(false);
     const [logoutHovered, setLogoutHovered] = useState(false);
+    const handleLogout = async () => {
+      try {
+        await fetch('http://localhost:9000/logout', {
+          method: 'POST', 
+          credentials: 'include', 
+          redirect: 'manual' // DO NOT REMOVE THIS REDIRECT, IT WILL NOT WORK WITHOUT THE REDIRECT
+        });
+    
+        Cookies.remove('sessionToken');
+        window.location.href = "/";
+    
+      } catch (error) {
+        console.error('ERROR INITIATING LOGOUT', error);
+      }
+    };
   return (
     <div>
-      <div>
-        <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={toggleDrawer}>
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
-      </div>
+      {//<div>
+        //<Toolbar>
+          //<IconButton edge="start" color="inherit" onClick={toggleDrawer}>
+         //   <MenuIcon />
+          //</IconButton>
+        //</Toolbar>
+      /*</div>*/}
       <Drawer   
         sx={{
             '& .MuiDrawer-paper': {
-              backgroundColor: theme.palette.primary.dark, // Change the background color of the Drawer
+              backgroundColor: theme.palette.primary.dark, 
               color: theme.palette.primary.light,
               fontWeight: 'bold',
               minWidth: 230,
@@ -52,16 +69,9 @@ const Sidebar = () => {
         <div> {/* sidebar items*/}
           {DrawerList}
           <Box
-            onMouseEnter={() => setHovered(true)} // Set hovered state to true on mouse enter
-            onMouseLeave={() => setHovered(false)} // Set hovered state to false on mouse leave
+            onMouseEnter={() => setHovered(true)} 
+            onMouseLeave={() => setHovered(false)} 
           >
-            <LightModeIcon 
-                style={{ 
-                margin: '0 16px 0',
-                color: hovered ? theme.palette.secondary.dark : theme.palette.secondary.main, // Change color on hover
-                transition: 'color 0.3s', // Smooth transition for color change
-                }} 
-            />
         </Box>
         
             <Box
@@ -77,8 +87,10 @@ const Sidebar = () => {
                         color: logoutHovered ? theme.palette.secondary.dark : theme.palette.secondary.main,
                         transition: 'color 0.7s',
                         fontSize: '14px', // Set your desired font size
-                        width: '230px'
+                        width: '230px',
+                        
                     }}
+                    onClick={handleLogout}
                 > <LogoutIcon 
                 style={{ 
                     color: logoutHovered ? theme.palette.secondary.dark : theme.palette.secondary.main, // Change color on hover
@@ -88,7 +100,6 @@ const Sidebar = () => {
                 Log out
                 </Button>
             </Box>
-            
         </div>
       </Drawer>
     </div>
@@ -97,14 +108,27 @@ const Sidebar = () => {
 const DrawerList = (
     <List>
       
-      <ListItem button><HomeIcon fontSize="small" style={{margin: '0 5px 3px 0px'}}/>Home</ListItem>
-      <ListItem button><MenuBookIcon fontSize="small" style={{margin: '0 5px 3px 0px'}}/>Courses <ArrowDropDown/></ListItem>
-      <ListItem button><EditIcon fontSize="small" style={{margin: '0 5px 1px 0px'}}/>Workspaces <ArrowDropDown/></ListItem>
-      <ListItem button> <CalendarTodayIcon fontSize="small" style={{margin: '0 5px 0 0px'}}/>Calendar</ListItem>
-      <ListItem button><ViewKanbanIcon fontSize="small" style={{margin: '0 5px 3px 0px'}}/>Kanban Board</ListItem>
-      <ListItem button><HelpOutlineIcon fontSize="small" style={{margin: '0 5px 1px 0px'}}/>Help</ListItem>
-      
-
+      <ListItem button component={Link} to="/"  sx={{
+      '&:hover': {
+        color: 'white',
+      },
+    }}><HomeIcon fontSize="small" style={{margin: '0 5px 3px 0px'}} />Home</ListItem>
+      <ListItem button component={Link} to="/"  sx={{
+      '&:hover': {
+        color: 'white',
+      },
+    }}><MenuBookIcon fontSize="small" style={{margin: '0 5px 3px 0px'}}/>Courses</ListItem>
+      <ListItem button component={Link} to="/texteditor"  sx={{
+      '&:hover': {
+        color: 'white',
+      },
+    }}><EditIcon fontSize="small" style={{margin: '0 5px 1px 0px'}}/>Workspace</ListItem>
+      <ListItem button component={Link} to="/calendar"  sx={{
+      '&:hover': {
+        color: 'white',
+      },
+    }}> <CalendarTodayIcon fontSize="small" style={{margin: '0 5px 0 0px'}}/>Calendar</ListItem>
+  
     </List>
   );
   

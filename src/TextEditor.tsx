@@ -13,6 +13,7 @@ import {
 } from '@tiptap/react'
 import { FormatBold, FormatItalic, StrikethroughS, FormatAlignLeft, FormatAlignCenter, FormatAlignRight, FormatSize, FormatListBulleted, FormatListNumbered, Code, HorizontalRule, FormatQuote, Checklist, CheckBox } from '@mui/icons-material';
 import { ColorModeContext, tokens } from './theme'
+import Sidebar from './Sidebar'
 
 
 
@@ -37,7 +38,6 @@ export default () => {
     
     fetchContent();
   }, []);
-  console.log(content);
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -83,7 +83,8 @@ export default () => {
 
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <><Sidebar />
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', marginLeft: '230px'}}>
       <Box
         sx={{
           padding: '8px',
@@ -227,5 +228,6 @@ export default () => {
         }}
       />
     </Box>
+    </>
   );
 };
