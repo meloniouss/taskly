@@ -11,6 +11,7 @@ import { Card, CardContent, TextField, Typography, CardActions } from '@mui/mate
 import { AppBar, Box, Button, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, useTheme } from "@mui/material";
 import { ColorModeContext, tokens } from './theme';
 import { useNavigate } from 'react-router-dom';
+import { red } from '@mui/material/colors';
 
 
 
@@ -35,6 +36,8 @@ const CoursePopup: React.FC<CoursePopupProps> = ({ onAddCourse, onUpdateCourse, 
       setCourseName(editingCourse.courseName);
     }
   }, [editingCourse]);
+
+  
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -104,6 +107,17 @@ const HomePage: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const handleEditClick = (course: Course) => {
     setEditingCourse(course);
+  };
+  const handleDeleteCourse = async (course: Course) => {
+    console.log(`Deleting course: ${course.id}`);
+    const response = await fetch(`http://localhost:9000/courses/${course.id}/delete`, {
+      method: 'DELETE',
+      credentials: 'include',
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to delete course: ${response.statusText}`);
+    }
+    fetchCourses();
   };
 
   const handleClosePopup = () => {
@@ -197,6 +211,13 @@ const HomePage: React.FC = () => {
                   onClick={() => handleEditClick(course)}
                 >
                   Edit course
+                </Button>
+                <Button 
+                  size="small" 
+                  color="secondary" 
+                  onClick={() => handleDeleteCourse(course)}
+                >
+                  Delete
                 </Button>
             </CardContent>
           </Card>

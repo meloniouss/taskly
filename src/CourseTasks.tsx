@@ -23,15 +23,27 @@ type CourseTable = {
 
 const CourseTaskTable = () => {
   const { courseId } = useParams();
-  const testRow = {
-    taskName: "Test Task",
-    isDone: false,
-    dueDate: "2024-12-31",
-    taskDescription: "This is a test task"
-};
+  const fetchCourseTasks = async () => {
+    try {
+      const response = await fetch(`http://localhost:9000/courses/${courseId}/tasks`, {
+        method: 'GET',
+        credentials: 'include', 
+      });
+      
+      if (!response.ok) {
+        setError(true);
+        throw new Error('Failed to fetch tasks');
+      }
+
+      const data: CourseTable[] = await response.json();
+      setCourseData(data); // update state with fetched tasks
+    } catch (error) {
+      setError(true);
+      console.error('Error fetching tasks:', error);
+    }
+  };
   const handleAddRow = async () => {
     const newRow = { taskName: "New task", isDone : false, dueDate: "2024-12-31", taskDescription: "Task description" };
-    setCourseData([...courseData, newRow]);
     try {
         const response = await fetch(`http://localhost:9000/courses/${courseId}/tasks`, {
             method: "POST",
@@ -45,9 +57,10 @@ const CourseTaskTable = () => {
         if (!response.ok) {
             throw new Error(`Error: ${response.statusText}`);
         }
-
         const result = await response.json();
-        return result;
+        setCourseData([...courseData, newRow]);
+        await fetchCourseTasks();
+
     } catch (error) {
         console.error("Error saving data:", error);
     }
@@ -70,6 +83,9 @@ const CourseTaskTable = () => {
         }
 
         const result = await response.json();
+        console.log("Saved data:");
+        console.log(result);
+        await fetchCourseTasks();
         return result;
     } catch (error) {
         console.error("Error saving data:", error);
@@ -93,13 +109,15 @@ const CourseTaskTable = () => {
     } else {
       newValue = e.target.value;
     }
-  
+    
     const updatedData = [...courseData];
     updatedData[rowIndex] = { 
       ...updatedData[rowIndex], 
       [columnId]: newValue 
     };
     setCourseData(updatedData);
+    console.log("Change recorded:");
+    console.log(courseData);
     debouncedSaveData(updatedData);
   };
   
