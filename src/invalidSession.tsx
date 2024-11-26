@@ -24,7 +24,7 @@ function InvalidSession() {
         <Typography variant="h1" color="black" gutterBottom>
           INVALID SESSION
         </Typography>
-        <Button variant="contained" color="secondary" onClick={() => window.location.href = 'http://localhost:9000/auth/oauth'}>
+        <Button variant="contained" color="secondary" onClick={() => window.location.href = 'https://studyplanner-production.up.railway.app/auth/oauth'}>
           Sign in again
         </Button>
       </Box>

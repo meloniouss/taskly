@@ -43,8 +43,8 @@ const CoursePopup: React.FC<CoursePopupProps> = ({ onAddCourse, onUpdateCourse, 
     event.preventDefault();
     try {
       const url = editingCourse // endpoint used depends on whether we are creating a course or modifying one (post vs put)
-        ? `http://localhost:9000/courses/${editingCourse.id}`
-        : 'http://localhost:9000/courses';
+        ? `https://studyplanner-production.up.railway.app/courses/${editingCourse.id}`
+        : 'https://studyplanner-production.up.railway.app/courses';
       const method = editingCourse ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
@@ -110,7 +110,7 @@ const HomePage: React.FC = () => {
   };
   const handleDeleteCourse = async (course: Course) => {
     console.log(`Deleting course: ${course.id}`);
-    const response = await fetch(`http://localhost:9000/courses/${course.id}/delete`, {
+    const response = await fetch(`https://studyplanner-production.up.railway.app/courses/${course.id}/delete`, {
       method: 'DELETE',
       credentials: 'include',
     });
@@ -125,7 +125,7 @@ const HomePage: React.FC = () => {
   };
   const fetchCourses = async () => { //course fetcher whenever we load the page or add a new course
     try {
-      const response = await fetch('http://localhost:9000/courses', {
+      const response = await fetch('https://studyplanner-production.up.railway.app/courses', {
         method: 'GET',
         credentials: 'include',
         headers: {

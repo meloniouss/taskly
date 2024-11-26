@@ -25,7 +25,7 @@ const CourseTaskTable = () => {
   const { courseId } = useParams();
   const fetchCourseTasks = async () => {
     try {
-      const response = await fetch(`http://localhost:9000/courses/${courseId}/tasks`, {
+      const response = await fetch(`https://studyplanner-production.up.railway.app/courses/${courseId}/tasks`, {
         method: 'GET',
         credentials: 'include', 
       });
@@ -45,7 +45,7 @@ const CourseTaskTable = () => {
   const handleAddRow = async () => {
     const newRow = { taskName: "New task", isDone : false, dueDate: "2024-12-31", taskDescription: "Task description" };
     try {
-        const response = await fetch(`http://localhost:9000/courses/${courseId}/tasks`, {
+        const response = await fetch(`https://studyplanner-production.up.railway.app/courses/${courseId}/tasks`, {
             method: "POST",
             credentials: 'include',
             headers: {
@@ -69,7 +69,7 @@ const CourseTaskTable = () => {
   //text editing functions
   const saveData = async (data: any) => {
     try {
-        const response = await fetch(`http://localhost:9000/courses/${courseId}/tasks`, {
+        const response = await fetch(`https://studyplanner-production.up.railway.app/courses/${courseId}/tasks`, {
             method: "PUT",
             credentials: 'include',
             headers: {
@@ -133,7 +133,7 @@ const CourseTaskTable = () => {
   useEffect(() => {
     const fetchCourseTasks = async () => {
       try {
-        const response = await fetch(`http://localhost:9000/courses/${courseId}/tasks`, {
+        const response = await fetch(`https://studyplanner-production.up.railway.app/courses/${courseId}/tasks`, {
           method: 'GET',
           credentials: 'include', 
         });

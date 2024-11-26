@@ -29,7 +29,7 @@ const Sidebar = () => {
     const [logoutHovered, setLogoutHovered] = useState(false);
     const handleLogout = async () => {
       try {
-        await fetch('http://localhost:9000/logout', {
+        await fetch('https://studyplanner-production.up.railway.app/logout', {
           method: 'POST', 
           credentials: 'include', 
           redirect: 'manual' // DO NOT REMOVE THIS REDIRECT, IT WILL NOT WORK WITHOUT THE REDIRECT

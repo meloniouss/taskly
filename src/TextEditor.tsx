@@ -23,7 +23,7 @@ export default () => {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const response = await fetch('http://localhost:9000/texteditor', {
+        const response = await fetch('https://studyplanner-production.up.railway.app/texteditor', {
           method: 'GET',
           credentials: 'include',
         });
@@ -59,7 +59,7 @@ export default () => {
 
   const saveContentToBackend = async (content: string) => {
     try {
-      await fetch('http://localhost:9000/texteditor', {
+      await fetch('https://studyplanner-production.up.railway.app/texteditor', {
         method: 'POST',
         credentials: 'include',
         headers: {

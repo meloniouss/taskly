@@ -22,7 +22,7 @@ const HomePage: React.FC = () => {
           <Typography variant="h5" paragraph>
             Manage your tasks, track your courses, and never miss a deadline again. Sign up today to start organizing your academic life!
           </Typography>
-          <Button variant="contained" color='secondary' size="large" href="http://localhost:9000/auth/oauth" >
+          <Button variant="contained" color='secondary' size="large" href="https://studyplanner-production.up.railway.app/auth/oauth" >
             Get Started Now
           </Button>
         </Container>
@@ -109,7 +109,7 @@ const HomePage: React.FC = () => {
         <Typography variant="h6" paragraph>
           Join thousands of students who trust our platform to keep them on top of their tasks and courses. Sign up now!
         </Typography>
-        <Button variant="contained" color="secondary" size="large" href="http://localhost:9000/auth/oauth">
+        <Button variant="contained" color="secondary" size="large" href="https://studyplanner-production.up.railway.app/auth/oauth">
           Sign Up Now
         </Button>
       </div>

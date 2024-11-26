@@ -45,7 +45,7 @@ const LoginButton = ({ onLogin, onLogout}: {onLogin: () => void; onLogout: () =>
 
 const handleLogout = async () => {
   try {
-    await fetch('http://localhost:9000/logout', {
+    await fetch('https://studyplanner-production.up.railway.app/logout', {
       method: 'POST', 
       credentials: 'include', 
       redirect: 'manual' // DO NOT REMOVE THIS REDIRECT, IT WILL NOT WORK WITHOUT THE REDIRECT
@@ -144,7 +144,7 @@ export default function Topbar() {
 
   const handleOAuthLogIn = async () => {
     try {
-      window.location.href = 'http://localhost:9000/auth/oauth';
+      window.location.href = 'https://studyplanner-production.up.railway.app/auth/oauth';
     } catch (error) {
         console.error('ERROR INITIATING LOG-IN', error);
     }
@@ -261,7 +261,7 @@ export default function Topbar() {
             backgroundColor: (theme) => theme.palette.secondary.main,
             '&:hover': { backgroundColor: '#3da58a' }
           }}
-          href="http://localhost:9000/auth/oauth"
+          href="https://studyplanner-production.up.railway.app/auth/oauth"
         >
           Sign up for free
         </Button>
