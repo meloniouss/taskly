@@ -128,9 +128,10 @@ const HomePage: React.FC = () => {
       const response = await fetch('https://studyplanner-production.up.railway.app/courses', {
         method: 'GET',
         credentials: 'include',
-        //headers: {
+        headers: {
         //  'Authorization': `Bearer ${Cookies.get('sessionToken')}`,
-        //},
+        "Accept":"application/json"
+        },
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');
