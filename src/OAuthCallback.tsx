@@ -11,7 +11,7 @@ const OAuthCallback = () => {
       cookieExpiration.setTime(cookieExpiration.getTime() + (24 * 60 * 60 * 1000)); // 1 day
       console.log(cookieExpiration);
       document.cookie = `sessionToken=${token}; path=/; expires=${cookieExpiration.toUTCString()}; Secure; SameSite=None;`;
-      window.location.href = '/otherpage'; 
+      window.location.href = '/'; 
     } else {
       console.error('No token found in URL');
     }
