@@ -1,4 +1,3 @@
-// HomePage.tsx
 import React, { useContext } from 'react';
 import Topbar from './Topbar';
 import { Button, Container, Grid, Typography, useTheme } from '@mui/material';
