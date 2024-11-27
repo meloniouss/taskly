@@ -138,8 +138,8 @@ const HomePage: React.FC = () => {
       const fetchedCourses: Course[] = await response.json();
       setCourses(fetchedCourses); 
     } catch (err) {
-      Cookies.remove('sessionToken');
-      window.location.href = '/invalidSession'
+      //Cookies.remove('sessionToken');
+      //window.location.href = '/invalidSession'
       console.error('Error fetching courses:', err);
     }
   };
