@@ -143,7 +143,7 @@ export default function Topbar() {
   };
 
   const handleOAuthLogIn = async () => {
-    try {
+    try { 
       window.location.href = 'https://studyplanner-production.up.railway.app/auth/oauth';
     } catch (error) {
         console.error('ERROR INITIATING LOG-IN', error);
