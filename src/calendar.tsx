@@ -38,7 +38,7 @@ const locales = {
     useEffect(() => {
         async function fetchTasks() {
           try {
-            const response = await fetch("http://localhost:9000/calendar",{
+            const response = await fetch("https://studyplanner-production.up.railway.app/calendar",{
                 method: 'GET',
                 credentials: 'include',
                 headers: {
