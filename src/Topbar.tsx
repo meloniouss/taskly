@@ -115,30 +115,42 @@ export default function Topbar() {
   const handleProductMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
     setAnchorElProduct(event.currentTarget);
     setIsHoveredProduct(true);
+    if (anchorElTeams) setAnchorElTeams(null);
+    if (anchorElIndividuals) setAnchorElIndividuals(null);
   };
 
   const handleProductMouseLeave = () => {
-    setAnchorElProduct(null);
+    setTimeout(() => {
+      setAnchorElProduct(null);
+    }, 200);
     setIsHoveredProduct(false);
   };
 
   const handleTeamsMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
     setAnchorElTeams(event.currentTarget);
     setIsHoveredTeams(true);
+    if (anchorElProduct) setAnchorElProduct(null);
+    if (anchorElIndividuals) setAnchorElIndividuals(null);
   };
 
   const handleTeamsMouseLeave = () => {
-    setAnchorElTeams(null);
+    setTimeout(() => {
+      setAnchorElTeams(null);
+    }, 200);
     setIsHoveredTeams(false);
   };
 
   const handleIndividualsMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
     setAnchorElIndividuals(event.currentTarget);
     setIsHoveredIndividuals(true);
+    if (anchorElProduct) setAnchorElProduct(null);
+    if (anchorElTeams) setAnchorElTeams(null);
   };
 
   const handleIndividualsMouseLeave = () => {
-    setAnchorElIndividuals(null);
+    setTimeout(() => {
+      setAnchorElIndividuals(null);
+    }, 200);
     setIsHoveredIndividuals(false);
   };
 
@@ -160,7 +172,7 @@ export default function Topbar() {
         </Typography>
 
         {/* Product Button */}
-        <div onMouseEnter={handleProductMouseEnter} onMouseLeave={handleProductMouseLeave}>
+        <div onMouseEnter={handleProductMouseEnter}>
           <Button
             sx={{
               fontSize: '1rem',
@@ -170,6 +182,7 @@ export default function Topbar() {
               color: 'white',
               width: '180px',
               borderRadius: '0px',
+              cursor: 'default',
             }}
             endIcon={isHoveredProduct ? <ArrowDropUp /> : <ArrowDropDown />}
           >
@@ -181,6 +194,7 @@ export default function Topbar() {
             anchorEl={anchorElProduct}
             open={Boolean(anchorElProduct)}
             onClose={handleProductMouseLeave}
+            MenuListProps={{onMouseLeave: handleProductMouseLeave}}
           >
             <MenuItem sx={{ backgroundColor: '#253248', '&:hover': { backgroundColor: '#3da58a' } }}>Calendar</MenuItem>
             <MenuItem sx={{ backgroundColor: '#253248', '&:hover': { backgroundColor: '#3da58a' } }}>Assignments</MenuItem>
@@ -199,6 +213,7 @@ export default function Topbar() {
               color: 'white',
               width: '180px',
               borderRadius: '0px',
+              cursor: 'default',
             }}
             endIcon={isHoveredTeams ? <ArrowDropUp /> : <ArrowDropDown />}
           >
@@ -209,6 +224,7 @@ export default function Topbar() {
             anchorEl={anchorElTeams}
             open={Boolean(anchorElTeams)}
             onClose={handleTeamsMouseLeave}
+            MenuListProps={{onMouseLeave: handleTeamsMouseLeave}}
           >
             <MenuItem sx={{ backgroundColor: '#253248', '&:hover': { backgroundColor: '#3da58a' } }}>Product</MenuItem>
             <MenuItem sx={{ backgroundColor: '#253248', '&:hover': { backgroundColor: '#3da58a' } }}>Design</MenuItem>
@@ -229,6 +245,7 @@ export default function Topbar() {
               color: 'white',
               width: '180px',
               borderRadius: '0px',
+              cursor: 'default',
             }}
             endIcon={isHoveredIndividuals ? <ArrowDropUp /> : <ArrowDropDown />}
           >
@@ -239,6 +256,7 @@ export default function Topbar() {
             anchorEl={anchorElIndividuals}
             open={Boolean(anchorElIndividuals)}
             onClose={handleIndividualsMouseLeave}
+            MenuListProps={{onMouseLeave: handleIndividualsMouseLeave}}
           >
             <MenuItem sx={{ backgroundColor: '#253248', '&:hover': { backgroundColor: '#3da58a' } }}>Personal</MenuItem>
             <MenuItem sx={{ backgroundColor: '#253248', '&:hover': { backgroundColor: '#3da58a' } }}>Students</MenuItem>
