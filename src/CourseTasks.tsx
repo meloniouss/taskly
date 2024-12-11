@@ -169,7 +169,7 @@ const CourseTaskTable = () => {
       direction="column" 
     >
       {/* headers */}
-<Grid container spacing={0} justifyContent="center" style={{ width: '852.13px', height: '79.79px', alignItems: 'center' }  }>
+<Grid container spacing={0} justifyContent="center" style={{ width: '830.13px', height: '79.79px', alignItems: 'center' }  }>
         <Card style={{ paddingTop: '15px', width: '100%', height: '100%', alignItems: 'center', backgroundColor: 'black'}} >
             <CardContent>
             <Grid container xs={12} md={12} lg={12} direction="row" >
@@ -206,7 +206,7 @@ const CourseTaskTable = () => {
           <Grid item xs={1} md={1} lg={1} key={rowIndex}>
             <Card style={{ margin: '0.5px', backgroundColor: 'black' }}>
               <CardContent>
-                <Grid container direction="row" spacing={10} justifyContent={'center'} style={{width: '852.13px'}}>
+                <Grid container direction="row" spacing={10} justifyContent={'center'}>
                   {/* Task Name */}
                   <Grid item>
                   <TextField
@@ -243,6 +243,7 @@ const CourseTaskTable = () => {
                             backgroundColor: 'transparent', 
                             borderBottom: 'none',
                           },
+                          '& fieldset': {border: 'none'},
                         }}
                     />
                   </Grid>
@@ -303,8 +304,9 @@ const CourseTaskTable = () => {
                         },
                         '& .MuiFilledInput-root': {
                           backgroundColor: 'transparent', 
-                          borderBottom: '0px',
+                          borderBottom: '0px'
                         },
+                        '& fieldset': {border: 'none'},
                       }}
                        value={row.taskDescription}
                        onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChange(e, rowIndex, 'taskDescription')}
