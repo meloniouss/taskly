@@ -169,7 +169,7 @@ const CourseTaskTable = () => {
       direction="column" 
     >
       {/* headers */}
-<Grid container spacing={0} justifyContent="center" style={{ width: '830.13px', height: '79.79px', alignItems: 'center' }  }>
+<Grid container spacing={0} justifyContent="center" style={{ width: '850.56px', height: '79.79px', alignItems: 'center' }  }>
         <Card style={{ paddingTop: '15px', width: '100%', height: '100%', alignItems: 'center', backgroundColor: 'black'}} >
             <CardContent>
             <Grid container xs={12} md={12} lg={12} direction="row" >

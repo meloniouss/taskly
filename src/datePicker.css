@@ -7,7 +7,7 @@
     font-size: 15.6px;
     font-family: "Source Sans Pro", sans-serif;
     border-radius: 4px;
-    background-color: black;
+    background-color: transparent;
     color: white;
     text-align: center;
 
@@ -16,7 +16,7 @@
   /* Focus state styling */
   .react-datepicker__input-container input:focus {
     border-color: #007bff;
-    background-color: #323232;
+    background-color: transparent;
     outline: none;
   }
   
