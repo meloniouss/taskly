@@ -206,7 +206,7 @@ const CourseTaskTable = () => {
           <Grid item xs={1} md={1} lg={1} key={rowIndex}>
             <Card style={{ margin: '0.5px', backgroundColor: 'black' }}>
               <CardContent>
-                <Grid container direction="row" spacing={10} justifyContent={'center'}>
+                <Grid container direction="row" spacing={10} justifyContent={'center'} style={{width: '852.13px'}}>
                   {/* Task Name */}
                   <Grid item>
                   <TextField
@@ -220,7 +220,7 @@ const CourseTaskTable = () => {
                         sx={{
                           border: '0px solid #4cceac', 
                           borderRadius: 0, 
-                          padding: '0px', 
+                          padding: '9px', 
                           backgroundColor: 'transparent',
                           color: 'transparent',
                           textAlign: 'center', 
@@ -241,6 +241,7 @@ const CourseTaskTable = () => {
                           },
                           '& .MuiFilledInput-root': {
                             backgroundColor: 'transparent', 
+                            borderBottom: 'none',
                           },
                         }}
                     />
@@ -281,7 +282,7 @@ const CourseTaskTable = () => {
                       sx={{
                         border: '0px solid #4cceac', 
                         borderRadius: 0, 
-                        padding: '0px', 
+                        padding: '8px', 
                         backgroundColor: 'transparent',
                         color: 'transparent',
                         textAlign: 'center', 
@@ -302,6 +303,7 @@ const CourseTaskTable = () => {
                         },
                         '& .MuiFilledInput-root': {
                           backgroundColor: 'transparent', 
+                          borderBottom: '0px',
                         },
                       }}
                        value={row.taskDescription}
