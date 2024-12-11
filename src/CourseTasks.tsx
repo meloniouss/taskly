@@ -170,7 +170,7 @@ const CourseTaskTable = () => {
     >
       {/* headers */}
 <Grid container spacing={0} justifyContent="center" style={{ width: '852.13px', height: '79.79px', alignItems: 'center' }  }>
-        <Card style={{ paddingTop: '0px', width: '100%', height: '100%', alignItems: 'center', backgroundColor: 'black'}} >
+        <Card style={{ paddingTop: '15px', width: '100%', height: '100%', alignItems: 'center', backgroundColor: 'black'}} >
             <CardContent>
             <Grid container xs={12} md={12} lg={12} direction="row" >
                 <Grid item xs={3} alignItems={'center'}>
@@ -221,7 +221,8 @@ const CourseTaskTable = () => {
                           border: '0px solid #4cceac', 
                           borderRadius: 0, 
                           padding: '0px', 
-                          backgroundColor: 'black', 
+                          backgroundColor: 'transparent',
+                          color: 'transparent',
                           textAlign: 'center', 
                           '& .MuiOutlinedInput-notchedOutline': {
                             border: 'none',
@@ -232,6 +233,14 @@ const CourseTaskTable = () => {
                           },
                           '&:focus': {
                             outline: 'none', 
+                          },
+                          '& .MuiFilledInput-input': {
+                            backgroundColor: 'transparent', 
+                            textAlign: 'center', 
+                            padding: '0', 
+                          },
+                          '& .MuiFilledInput-root': {
+                            backgroundColor: 'transparent', 
                           },
                         }}
                     />
@@ -264,11 +273,37 @@ const CourseTaskTable = () => {
                   {/* Task Description */}
                   <Grid item>
                     <TextField
-                       hiddenLabel
-                       id="filled-hidden-label-small"
-                       variant="filled"
-                       size="small"
-                       fullWidth
+                      hiddenLabel
+                      id="filled-hidden-label-small"
+                      variant="filled"
+                      fullWidth
+                      size="small"
+                      sx={{
+                        border: '0px solid #4cceac', 
+                        borderRadius: 0, 
+                        padding: '0px', 
+                        backgroundColor: 'transparent',
+                        color: 'transparent',
+                        textAlign: 'center', 
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          border: 'none',
+                        },
+                        '& .MuiInputBase-input': {
+                          padding: '0', 
+                          textAlign: 'center', 
+                        },
+                        '&:focus': {
+                          outline: 'none', 
+                        },
+                        '& .MuiFilledInput-input': {
+                          backgroundColor: 'transparent', 
+                          textAlign: 'center', 
+                          padding: '0', 
+                        },
+                        '& .MuiFilledInput-root': {
+                          backgroundColor: 'transparent', 
+                        },
+                      }}
                        value={row.taskDescription}
                        onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChange(e, rowIndex, 'taskDescription')}
                     />
