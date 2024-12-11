@@ -31,3 +31,18 @@
     width: 200px;
     height: 40px; /* or auto based on your preference */
   }
+/* Custom styling for MuiCard-root */
+.MuiCard-root {
+  border: 1px solid #4cceac; /* Light border for the "cell" appearance */
+  padding: 12px;
+}
+
+.MuiPaper-root {
+  border-radius: 4px; /* Ensure rounded corners on Paper */
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12); /* Light shadow for a "table" feel */
+}
+
+.MuiTypography-h6 {
+  font-weight: bold;
+  margin-bottom: 8px; /* Adds space between title and content */
+}
