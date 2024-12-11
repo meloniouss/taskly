@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Card, CardContent, TextField, Grid, Typography, useTheme, debounce, Button, Checkbox } from '@mui/material';
+import { Box, Card, CardContent, TextField, InputProps, Grid, Typography, useTheme, debounce, Button, Checkbox } from '@mui/material';
 import { ColorModeContext, tokens } from './theme';
 import {useDebounce} from './debounce';
 import DatePicker from "react-datepicker";
@@ -214,12 +214,12 @@ const CourseTaskTable = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChange(e, rowIndex, 'taskName')}
                         hiddenLabel
                         id="filled-hidden-label-small"
-                        variant="filled"
+                        variant="standard"
                         fullWidth
                         size="small"
+                        InputProps={{ disableUnderline: true}}
                         sx={{
-                          border: '0px solid #4cceac', 
-                          borderRadius: 0, 
+                          border: 'none', 
                           padding: '9px', 
                           backgroundColor: 'transparent',
                           color: 'transparent',
@@ -270,6 +270,7 @@ const CourseTaskTable = () => {
                           dateFormat="yyyy-MM-dd"
                           placeholderText="Select a date"
                           value={courseData[rowIndex].dueDate}
+                          
                   />
                   </Grid>
                   {/* Task Description */}
@@ -277,9 +278,10 @@ const CourseTaskTable = () => {
                     <TextField
                       hiddenLabel
                       id="filled-hidden-label-small"
-                      variant="filled"
+                      variant="standard"
                       fullWidth
                       size="small"
+                      InputProps={{ disableUnderline: true}}
                       sx={{
                         border: '0px solid #4cceac', 
                         borderRadius: 0, 
@@ -287,6 +289,7 @@ const CourseTaskTable = () => {
                         backgroundColor: 'transparent',
                         color: 'transparent',
                         textAlign: 'center', 
+                        
                         '& .MuiOutlinedInput-notchedOutline': {
                           border: 'none',
                         },

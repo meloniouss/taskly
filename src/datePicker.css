@@ -3,11 +3,11 @@
 .react-datepicker__input-container input {
     padding: 9px 0 9px 0; /* Vertical padding: 6px, Horizontal padding: 12px */
 
-    border: 1px solid #ccc;
+    border: 0px solid #ccc;
     font-size: 15.6px;
     font-family: "Source Sans Pro", sans-serif;
     border-radius: 4px;
-    background-color: #323232;
+    background-color: black;
     color: white;
     text-align: center;
 
@@ -29,11 +29,11 @@
     resize: both;
     overflow: auto;
     width: 200px;
-    height: 40px; /* or auto based on your preference */
+    height: 40px; 
   }
 /* Custom styling for MuiCard-root */
 .MuiCard-root {
-  border: 1px solid #4cceac; /* Light border for the "cell" appearance */
+  border: 1px solid #4cceac; 
   padding: 12px;
 }
 
