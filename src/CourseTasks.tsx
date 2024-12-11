@@ -169,7 +169,7 @@ const CourseTaskTable = () => {
       direction="column" 
     >
       {/* headers */}
-<Grid container spacing={0} justifyContent="center" style={{ width: '852.13px', height: '50px', alignItems: 'center' }  }>
+<Grid container spacing={0} justifyContent="center" style={{ width: '852.13px', height: '79.79px', alignItems: 'center' }  }>
         <Card style={{ paddingTop: '0px', width: '100%', height: '100%', alignItems: 'center', backgroundColor: 'black'}} >
             <CardContent>
             <Grid container xs={12} md={12} lg={12} direction="row" >
@@ -218,9 +218,9 @@ const CourseTaskTable = () => {
                         fullWidth
                         size="small"
                         sx={{
-                          border: '1px solid #4cceac', 
+                          border: '0px solid #4cceac', 
                           borderRadius: 0, 
-                          padding: '8px', 
+                          padding: '0px', 
                           backgroundColor: 'black', 
                           textAlign: 'center', 
                           '& .MuiOutlinedInput-notchedOutline': {
