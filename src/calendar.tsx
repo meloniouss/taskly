@@ -5,10 +5,12 @@ import startOfWeek from 'date-fns/startOfWeek'
 import getDay from 'date-fns/getDay'
 import enUS from 'date-fns/locale/en-US'
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './calendar.css'
 import Sidebar from './Sidebar'
+import { useTheme } from '@mui/material'
+import { ColorModeContext, tokens } from './theme'
 
 
 const locales = {
@@ -35,6 +37,10 @@ const locales = {
   export default function MyCalendar() {
     const [tasks, setTasks] = useState<CalendarEvent[]>([]);
     const navigate = useNavigate();
+      const colorMode = useContext(ColorModeContext);
+      const theme = useTheme();
+      const colors = tokens(theme.palette.mode);
+    
     useEffect(() => {
         async function fetchTasks() {
           try {
@@ -74,13 +80,13 @@ const locales = {
             events={tasks}
             startAccessor="start"
             endAccessor="end"
-            style={{ height: "100%", margin: "20px" }}
+            style={{ height: "100%", margin: "20px", }}
             components={{
                 event: ({ event }) => (
                     <div
                     style={{
-                        display: 'flex',  // Set to flexbox to allow flexibility
-                        flexDirection: 'column',  // Stack the children (title and other content) vertically
+                        display: 'flex',  
+                        flexDirection: 'column',  
                         //backgroundColor: 'lightblue',
                         borderRadius: '5px',
                         padding: '10px',

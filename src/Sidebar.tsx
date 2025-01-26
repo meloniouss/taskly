@@ -44,13 +44,6 @@ const Sidebar = () => {
     };
   return (
     <div>
-      {//<div>
-        //<Toolbar>
-          //<IconButton edge="start" color="inherit" onClick={toggleDrawer}>
-         //   <MenuIcon />
-          //</IconButton>
-        //</Toolbar>
-      /*</div>*/}
       <Drawer   
         sx={{
             '& .MuiDrawer-paper': {

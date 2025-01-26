@@ -88,8 +88,8 @@ export default () => {
       <Box
         sx={{
           padding: '8px',
-          backgroundColor: '#f4f4f4',
-          borderBottom: '1px solid #ddd',
+          backgroundColor: theme.palette.primary.dark,
+          borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
           display: 'flex',
           justifyContent: 'flex-start',
           gap: '8px',

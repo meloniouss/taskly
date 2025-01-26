@@ -170,7 +170,7 @@ const CourseTaskTable = () => {
     >
       {/* headers */}
 <Grid container spacing={0} justifyContent="center" style={{ width: '850.56px', height: '79.79px', alignItems: 'center' }  }>
-        <Card style={{ paddingTop: '15px', width: '100%', height: '100%', alignItems: 'center', backgroundColor: 'black'}} >
+        <Card style={{ paddingTop: '15px', width: '100%', height: '100%', alignItems: 'center', backgroundColor: colors.primary[500], border: '1px solid rgba(255, 255, 255, 0.12)'}} >
             <CardContent>
             <Grid container xs={12} md={12} lg={12} direction="row" >
                 <Grid item xs={3} alignItems={'center'}>
@@ -204,12 +204,12 @@ const CourseTaskTable = () => {
         </Grid>
         {courseData.map((row, rowIndex) => (
           <Grid item xs={1} md={1} lg={1} key={rowIndex}>
-            <Card style={{ margin: '0.5px', backgroundColor: 'black' }}>
+            <Card style={{ margin: '0.5px', backgroundColor: colors.primary[500] }}>
               <CardContent>
                 <Grid container direction="row" spacing={10} justifyContent={'center'}>
                   {/* Task Name */}
                   <Grid item>
-                  <TextField
+                  <TextField 
                         value={row.taskName}
                         onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleChange(e, rowIndex, 'taskName')}
                         hiddenLabel
@@ -283,7 +283,7 @@ const CourseTaskTable = () => {
                       size="small"
                       InputProps={{ disableUnderline: true}}
                       sx={{
-                        border: '0px solid #4cceac', 
+                        border: 'none', 
                         borderRadius: 0, 
                         padding: '8px', 
                         backgroundColor: 'transparent',

@@ -8,15 +8,13 @@
     min-width: 0 !important;
     padding-right: 5px !important;
     text-align: right !important;
-  
+    border-color: #2e7c67 !important;
     &.rbc-now {
       font-weight: bold !important;
       background-color: #4cceac !important;
       color: black !important;
       border-radius: 0px !important;
-      padding: 0px !important;
       width: 100%;
-      margin-top: 1px;
     }
   
     > a {
@@ -31,28 +29,28 @@
 
   .rbc-day-bg {
     flex: 1 0 0% !important;
-    border-left: 1px solid inherit !important;
     padding: 10px !important;
     background-color: #141b2d;
   }
   .rbc-btn-group button:first-child {
     background-color: #4cceac !important;
-    color: white !important;
+    color: #1c263f !important;
     border-radius: 5px;
   }
   .rbc-btn-group button:nth-child(2){
     background-color: #4cceac !important;
-    color: white !important;
+    color: #1c263f !important;
     border-radius: 5px;
   }
   
 
   .rbc-btn-group button:last-child {
     background-color: #4cceac !important;
-    color: white !important;
+    color: #1c263f !important;
     border-radius: 5px;
   }
   .rbc-btn-group button:nth-child(1):hover {
+
     background-color: #2e7c67 !important;
   }
   .rbc-btn-group button:nth-child(2):hover {
@@ -75,3 +73,33 @@
     flex: 1; 
   }
   
+
+  .rbc-header {
+    background-color: #121828;
+    font-size: 14px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px !important;
+    border-color: #2e7c67 !important;
+    border-width: 1px;
+  }
+.rbc-day-bg {
+  border-color: #2e7c67 !important;  
+}
+
+.rbc-off-range-bg {
+  border-color: 1px black;  
+}
+
+/* Optional: Customize hover effect */
+.rbc-day-bg:hover {
+  background-color: #1c263f; 
+}
+.rbc-month-row {
+  border-color: #2e7c67 !important;
+}
+.rbc-month-view{
+  border-color: #2e7c67 !important;
+  border-radius: 5px;
+}
