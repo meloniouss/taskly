@@ -16,7 +16,6 @@ import { red } from '@mui/material/colors';
 
 
 const sessionToken = Cookies.get('sessionToken');
-//const userId = Cookies.get('userId');
 
 interface CoursePopupProps {
   onAddCourse: () => void;
@@ -31,7 +30,6 @@ const CoursePopup: React.FC<CoursePopupProps> = ({ onAddCourse, onUpdateCourse, 
   const colors = tokens(theme.palette.mode);
 
   useEffect(() => {
-    // If editingCourse changes, update the courseName state
     if (editingCourse) {
       setCourseName(editingCourse.courseName);
     }
@@ -129,7 +127,6 @@ const HomePage: React.FC = () => {
         method: 'GET',
         credentials: 'include',
         headers: {
-        //  'Authorization': `Bearer ${Cookies.get('sessionToken')}`,
         "Accept":"application/json"
         },
       });
@@ -139,8 +136,6 @@ const HomePage: React.FC = () => {
       const fetchedCourses: Course[] = await response.json();
       setCourses(fetchedCourses); 
     } catch (err) {
-      //Cookies.remove('sessionToken');
-      //window.location.href = '/invalidSession'
       console.error('Error fetching courses:', err);
     }
   };
@@ -204,7 +199,7 @@ const HomePage: React.FC = () => {
       >
       {courses.slice().reverse().map((course, index) => (
            <Card key={index} sx={{ borderRadius: 2, boxShadow: 3, width: 300, height: 200 }}>
-    <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', justifyContent: 'center' }}>
+             <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', justifyContent: 'center' }}>
               <Button style={{ color: theme.palette.primary.contrastText }} onClick={() => navigate(`/courses/${course.id}`)}><Typography variant="h1">{course.courseName}</Typography></Button>
               <Button 
                   size="small" 
@@ -258,13 +253,12 @@ const HomePage: React.FC = () => {
             onAddCourse={fetchCourses}
             onUpdateCourse={() => {
               fetchCourses();
-              setEditingCourse(null); // Close the popup after update
+              setEditingCourse(null); 
             }}
           />
         </Popup>
       )}
       </Box>
-        {/* Other content for your home page can go here */}
       </Box>
     </Box>
   );
