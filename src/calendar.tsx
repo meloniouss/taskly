@@ -58,7 +58,6 @@ const locales = {
                   setTasks(calendarEvents);
             }
           } catch (error) {
-            navigate("/invalidSession");
             console.error("Error fetching tasks:", error);
           }
         }
